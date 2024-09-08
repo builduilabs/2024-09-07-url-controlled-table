@@ -6,7 +6,7 @@ export default async function getPeople(query: string) {
       )
     : people;
 
-  return filteredPeople;
+  return filteredPeople.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 let people = [

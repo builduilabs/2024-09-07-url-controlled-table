@@ -1,4 +1,4 @@
-import { Container, Heading, Table } from '@radix-ui/themes';
+import { Container, Flex, Heading, Table } from '@radix-ui/themes';
 import getPeople from './db';
 import Searchbar from './searchbar';
 
@@ -16,7 +16,9 @@ export default async function Home({
         Your team
       </Heading>
 
-      <Searchbar />
+      <Flex>
+        <Searchbar />
+      </Flex>
 
       <Table.Root mt="4">
         <Table.Header>
