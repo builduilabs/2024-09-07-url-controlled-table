@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import '@radix-ui/themes/styles.css';
-import { Theme } from '@radix-ui/themes';
+import { Container, Theme } from '@radix-ui/themes';
 import Providers from './providers';
 
 const geistSans = localFont({
@@ -31,7 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <Theme>{children}</Theme>
+          <Theme>
+            <Container p="4">{children}</Container>
+          </Theme>
         </Providers>
       </body>
     </html>

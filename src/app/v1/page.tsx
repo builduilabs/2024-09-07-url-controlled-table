@@ -1,14 +1,7 @@
 'use client';
 
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import {
-  Container,
-  Flex,
-  Heading,
-  Spinner,
-  Table,
-  TextField,
-} from '@radix-ui/themes';
+import { Flex, Heading, Spinner, Table, TextField } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Person } from '../api/people/route';
@@ -27,7 +20,7 @@ export default function Home() {
   });
 
   return (
-    <Container mt="8" px="8">
+    <>
       <Heading mb="8" size="7">
         Your team
       </Heading>
@@ -74,6 +67,6 @@ export default function Home() {
           </Table.Body>
         </Table.Root>
       ) : null}
-    </Container>
+    </>
   );
 }
