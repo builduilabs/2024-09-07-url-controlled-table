@@ -1,13 +1,20 @@
-export async function GET() {
+import { NextRequest } from 'next/server';
+
+export async function GET(request: NextRequest) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  let query = '';
-  let filteredPeople = query
+
+  const searchParams = request.nextUrl.searchParams;
+  const search = searchParams.get('search');
+
+  let filteredPeople = search
     ? people.filter((p) =>
-        query ? p.name.toLowerCase().includes(query.toLowerCase()) : true
+        search ? p.name.toLowerCase().includes(search.toLowerCase()) : true
       )
     : people;
 
-  let data = filteredPeople.sort((a, b) => a.name.localeCompare(b.name));
+  let data = filteredPeople
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(0, 10);
 
   return Response.json(data);
 }
@@ -254,3 +261,5 @@ let people = [
     department: 'Human Resources',
   },
 ];
+
+export type Person = (typeof people)[number];
