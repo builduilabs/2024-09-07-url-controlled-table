@@ -3,11 +3,14 @@
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { Flex, Heading, Spinner, Table, TextField } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import { Person } from '../api/people/route';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function Home() {
-  let [search, setSearch] = useState('');
+  let router = useRouter();
+  let pathname = usePathname();
+  let searchParams = useSearchParams();
+  let search = searchParams.get('search') ?? '';
   let { data, isPlaceholderData } = useQuery({
     queryKey: ['people', search],
     queryFn: async () => {
@@ -29,7 +32,14 @@ export default function Home() {
         <TextField.Root
           value={search}
           onChange={(e) => {
-            setSearch(e.target.value);
+            let search = e.target.value;
+            let url = pathname;
+            if (search) {
+              let newSearchParams = new URLSearchParams({ search });
+              url += `?${newSearchParams}`;
+            }
+
+            router.push(url);
           }}
           placeholder="Find a user..."
         >
