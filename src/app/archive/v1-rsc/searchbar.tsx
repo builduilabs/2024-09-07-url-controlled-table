@@ -1,7 +1,6 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { Flex, Spinner, TextField } from '@radix-ui/themes';
+// import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useOptimistic, useTransition } from 'react';
 
@@ -24,8 +23,9 @@ export default function Searchbar() {
   );
 
   return (
-    <Flex align="center" gap="2">
-      <TextField.Root
+    <div align="center" gap="2">
+      <input
+        type="text"
         value={optimisticQuery}
         onChange={(e) => {
           let q = e.target.value;
@@ -39,13 +39,14 @@ export default function Searchbar() {
           });
         }}
         placeholder="Find a user..."
-      >
-        <TextField.Slot>
+      />
+      {/* <TextField.Slot>
           <MagnifyingGlassIcon height="16" width="16" />
         </TextField.Slot>
-      </TextField.Root>
+      </input> */}
 
-      {isPending && <Spinner />}
-    </Flex>
+      {/* {isPending && <Spinner />} */}
+      {isPending && <span>Loading...</span>}
+    </div>
   );
 }

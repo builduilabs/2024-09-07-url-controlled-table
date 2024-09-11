@@ -1,10 +1,20 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { Flex, Heading, Spinner, Table, TextField } from '@radix-ui/themes';
+// import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Person } from '../api/people/route';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../components/table';
+import { Heading } from '../components/heading';
+import { Input, InputGroup } from '../components/input';
+import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 
 export default function Home() {
   let [search, setSearch] = useState('');
@@ -21,49 +31,46 @@ export default function Home() {
 
   return (
     <>
-      <Heading mb="8" size="7">
-        Your team
-      </Heading>
+      <Heading>Your team</Heading>
 
-      <Flex align="center" gap="4">
-        <TextField.Root
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          placeholder="Find a user..."
-        >
-          <TextField.Slot>
-            <MagnifyingGlassIcon height="16" width="16" />
-          </TextField.Slot>
-        </TextField.Root>
-
-        {isPlaceholderData && <Spinner />}
-      </Flex>
+      <div className="mt-4">
+        <InputGroup className="">
+          <MagnifyingGlassIcon
+            className={isPlaceholderData ? 'animate-pulse' : ''}
+          />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Find a user&hellip;"
+            name="search"
+            aria-label="Search"
+          />
+        </InputGroup>
+      </div>
 
       {!data ? (
-        <Flex justify="center" mt="8">
-          <Spinner size="3" />
-        </Flex>
+        <div justify="center" mt="8">
+          Loading...
+        </div>
       ) : (
-        <Table.Root mt="4">
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Group</Table.ColumnHeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
+        <Table className="mt-4">
+          <TableHead>
+            <TableRow>
+              <TableHeader>Full name</TableHeader>
+              <TableHeader>Email</TableHeader>
+              <TableHeader>Group</TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {data.map((person) => (
-              <Table.Row key={person.id}>
-                <Table.RowHeaderCell>{person.name}</Table.RowHeaderCell>
-                <Table.Cell>{person.email}</Table.Cell>
-                <Table.Cell>{person.department}</Table.Cell>
-              </Table.Row>
+              <TableRow key={person.id}>
+                <TableCell>{person.name}</TableCell>
+                <TableCell>{person.email}</TableCell>
+                <TableCell>{person.department}</TableCell>
+              </TableRow>
             ))}
-          </Table.Body>
-        </Table.Root>
+          </TableBody>
+        </Table>
       )}
     </>
   );

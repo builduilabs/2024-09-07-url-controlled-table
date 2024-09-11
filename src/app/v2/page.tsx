@@ -1,7 +1,6 @@
 'use client';
 
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { Flex, Heading, Spinner, Table, TextField } from '@radix-ui/themes';
 import { useQuery } from '@tanstack/react-query';
 import { Person } from '../api/people/route';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -24,12 +23,12 @@ export default function Home() {
 
   return (
     <>
-      <Heading mb="8" size="7">
+      <h1 mb="8" size="7">
         Your team
-      </Heading>
+      </h1>
 
-      <Flex align="center" gap="4">
-        <TextField.Root
+      <div align="center" gap="4">
+        <input
           value={search}
           onChange={(e) => {
             let search = e.target.value;
@@ -43,37 +42,38 @@ export default function Home() {
           }}
           placeholder="Find a user..."
         >
-          <TextField.Slot>
+          {/* <TextField.Slot>
             <MagnifyingGlassIcon height="16" width="16" />
-          </TextField.Slot>
-        </TextField.Root>
+          </TextField.Slot> */}
+        </input>
 
-        {isPlaceholderData && <Spinner />}
-      </Flex>
+        {isPlaceholderData && <p>Loading</p>}
+      </div>
 
       {!data ? (
-        <Flex justify="center" mt="8">
-          <Spinner size="3" />
-        </Flex>
+        <div justify="center" mt="8">
+          {/* <Spinner size="3" /> */}
+          Loading...
+        </div>
       ) : (
-        <Table.Root mt="4">
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Group</Table.ColumnHeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
+        <table mt="4">
+          <thead>
+            <tr>
+              <td>Full name</td>
+              <td>Email</td>
+              <td>Group</td>
+            </tr>
+          </thead>
+          <tbody>
             {data.map((person) => (
-              <Table.Row key={person.id}>
-                <Table.RowHeaderCell>{person.name}</Table.RowHeaderCell>
-                <Table.Cell>{person.email}</Table.Cell>
-                <Table.Cell>{person.department}</Table.Cell>
-              </Table.Row>
+              <tr key={person.id}>
+                <td>{person.name}</td>
+                <td>{person.email}</td>
+                <td>{person.department}</td>
+              </tr>
             ))}
-          </Table.Body>
-        </Table.Root>
+          </tbody>
+        </table>
       )}
     </>
   );
