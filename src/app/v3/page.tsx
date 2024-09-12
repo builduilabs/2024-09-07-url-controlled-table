@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
 import { Input, InputGroup } from '../components/input';
@@ -16,10 +16,13 @@ import {
 } from '../components/table';
 import Spinner from '../spinner';
 import { Strong, Text } from '../components/text';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function Home() {
-  let [search, setSearch] = useState('');
+  let router = useRouter();
+  let pathname = usePathname();
+  let searchParams = useSearchParams();
+  let search = searchParams.get('search') ?? '';
   let { data, isPlaceholderData } = useQuery({
     queryKey: ['people', search],
     queryFn: async () => {
@@ -30,18 +33,6 @@ export default function Home() {
     },
     placeholderData: (previousData) => previousData,
   });
-  let router = useRouter();
-  let pathname = usePathname();
-
-  useEffect(() => {
-    let url = pathname;
-    if (search) {
-      let newSearchParams = new URLSearchParams({ search });
-      url += `?${newSearchParams}`;
-    }
-
-    router.push(url);
-  }, [pathname, router, search]);
 
   return (
     <>
@@ -63,7 +54,16 @@ export default function Home() {
                 )}
                 <Input
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    let search = e.target.value;
+                    let url = pathname;
+                    if (search) {
+                      let newSearchParams = new URLSearchParams({ search });
+                      url += `?${newSearchParams}`;
+                    }
+
+                    router.push(url);
+                  }}
                   placeholder="Find someone&hellip;"
                   name="search"
                   aria-label="Search"
