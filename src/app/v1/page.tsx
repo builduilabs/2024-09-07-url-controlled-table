@@ -3,7 +3,7 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Person } from '../api/people/route';
+import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
 import { Input, InputGroup } from '../components/input';
 import {
@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '../components/table';
 import Spinner from '../spinner';
+import { Strong, Text } from '../components/text';
 
 export default function Home() {
   let [search, setSearch] = useState('');
@@ -24,7 +25,7 @@ export default function Home() {
       let res = await fetch(`/api/people?search=${search}`);
       let data = await res.json();
 
-      return data as Person[];
+      return data as Response;
     },
     placeholderData: (previousData) => previousData,
   });
@@ -39,36 +40,46 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <div className="mt-4">
-            <InputGroup>
-              {isPlaceholderData ? (
-                <Spinner data-slot="icon" />
-              ) : (
-                <MagnifyingGlassIcon />
-              )}
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Find a user&hellip;"
-                name="search"
-                aria-label="Search"
-              />
-            </InputGroup>
+          <div className="mt-4 grid grid-cols-2 gap-4 items-center">
+            <div>
+              <InputGroup>
+                {isPlaceholderData ? (
+                  <Spinner data-slot="icon" />
+                ) : (
+                  <MagnifyingGlassIcon />
+                )}
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Find someone&hellip;"
+                  name="search"
+                  aria-label="Search"
+                />
+              </InputGroup>
+            </div>
+            <div className="text-right">
+              <Text>
+                Showing <Strong>{data.meta.current}</Strong> of{' '}
+                <Strong>{data.meta.total}</Strong> results
+              </Text>
+            </div>
           </div>
-          <Table dense striped className="mt-4">
+          <Table dense className="mt-4">
             <TableHead>
               <TableRow>
-                <TableHeader>Full name</TableHeader>
+                <TableHeader>Name</TableHeader>
                 <TableHeader>Email</TableHeader>
-                <TableHeader>Group</TableHeader>
+                <TableHeader>Role</TableHeader>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((person) => (
+              {data.people.map((person) => (
                 <TableRow key={person.id}>
-                  <TableCell>{person.name}</TableCell>
-                  <TableCell>{person.email}</TableCell>
-                  <TableCell>{person.department}</TableCell>
+                  <TableCell className="font-medium">{person.name}</TableCell>
+                  <TableCell className="text-gray-500">
+                    {person.email}
+                  </TableCell>
+                  <TableCell className="text-gray-500">{person.role}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
