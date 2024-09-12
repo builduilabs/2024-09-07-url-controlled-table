@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
 import { Input, InputGroup } from '../components/input';
@@ -14,10 +14,14 @@ import {
   TableHeader,
   TableRow,
 } from '../components/table';
+import { Strong, Text } from '../components/text';
 import Spinner from '../spinner';
 
 export default function Home() {
-  let [search, setSearch] = useState('');
+  let router = useRouter();
+  let pathname = usePathname();
+  let searchParams = useSearchParams();
+  let search = searchParams.get('search') ?? '';
   let { data, isPlaceholderData } = useQuery({
     queryKey: ['people', search],
     queryFn: async () => {
@@ -49,12 +53,27 @@ export default function Home() {
                 )}
                 <Input
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    let search = e.target.value;
+                    let url = pathname;
+                    if (search) {
+                      let newSearchParams = new URLSearchParams({ search });
+                      url += `?${newSearchParams}`;
+                    }
+
+                    router.push(url);
+                  }}
                   placeholder="Find someone&hellip;"
                   name="search"
                   aria-label="Search"
                 />
               </InputGroup>
+            </div>
+            <div className="text-right">
+              <Text>
+                Showing <Strong>{data.meta.current}</Strong> of{' '}
+                <Strong>{data.meta.total}</Strong> results
+              </Text>
             </div>
           </div>
           <Table dense className="mt-4">

@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
 import { faker } from '@faker-js/faker';
+faker.seed(123);
 
 export async function GET(request: NextRequest) {
   await new Promise((resolve) => setTimeout(resolve, 1000));

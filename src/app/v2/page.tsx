@@ -1,11 +1,8 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
-import { Input, InputGroup } from '../components/input';
 import {
   Table,
   TableBody,
@@ -14,20 +11,17 @@ import {
   TableHeader,
   TableRow,
 } from '../components/table';
-import { Strong, Text } from '../components/text';
 import Spinner from '../spinner';
 
 export default function Home() {
-  let [search, setSearch] = useState('');
-  let { data, isPlaceholderData } = useQuery({
-    queryKey: ['people', search],
+  let { data } = useQuery({
+    queryKey: ['people'],
     queryFn: async () => {
-      let res = await fetch(`/api/people?search=${search}`);
+      let res = await fetch(`/api/people`);
       let data = await res.json();
 
       return data as Response;
     },
-    placeholderData: (previousData) => previousData,
   });
 
   return (
@@ -40,26 +34,6 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <div className="mt-4 grid grid-cols-2 gap-4 items-center">
-            <div>
-              <InputGroup>
-                {isPlaceholderData ? <Spinner /> : <MagnifyingGlassIcon />}
-                <Input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Find someone&hellip;"
-                  name="search"
-                  aria-label="Search"
-                />
-              </InputGroup>
-            </div>
-            <div className="text-right">
-              <Text>
-                Showing <Strong>{data.meta.current}</Strong> of{' '}
-                <Strong>{data.meta.total}</Strong> results
-              </Text>
-            </div>
-          </div>
           <Table dense className="mt-4">
             <TableHead>
               <TableRow>

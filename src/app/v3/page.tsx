@@ -2,8 +2,7 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
 import { Input, InputGroup } from '../components/input';
@@ -15,12 +14,11 @@ import {
   TableHeader,
   TableRow,
 } from '../components/table';
-import { Strong, Text } from '../components/text';
 import Spinner from '../spinner';
 
 export default function Home() {
   let [search, setSearch] = useState('');
-  let { data, isPlaceholderData } = useQuery({
+  let { data } = useQuery({
     queryKey: ['people', search],
     queryFn: async () => {
       let res = await fetch(`/api/people?search=${search}`);
@@ -28,55 +26,33 @@ export default function Home() {
 
       return data as Response;
     },
-    placeholderData: (previousData) => previousData,
   });
-  let router = useRouter();
-  let pathname = usePathname();
-
-  useEffect(() => {
-    let url = pathname;
-    if (search) {
-      let newSearchParams = new URLSearchParams({ search });
-      url += `?${newSearchParams}`;
-    }
-
-    router.push(url);
-  }, [pathname, router, search]);
 
   return (
     <>
       <Heading>Your team</Heading>
 
-      {!data ? (
-        <div className="mt-20 flex justify-center">
-          <Spinner className="size-5" />
-        </div>
-      ) : (
-        <>
-          <div className="mt-4 grid grid-cols-2 gap-4 items-center">
-            <div>
-              <InputGroup>
-                {isPlaceholderData ? (
-                  <Spinner data-slot="icon" />
-                ) : (
-                  <MagnifyingGlassIcon />
-                )}
-                <Input
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Find someone&hellip;"
-                  name="search"
-                  aria-label="Search"
-                />
-              </InputGroup>
-            </div>
-            <div className="text-right">
-              <Text>
-                Showing <Strong>{data.meta.current}</Strong> of{' '}
-                <Strong>{data.meta.total}</Strong> results
-              </Text>
-            </div>
+      <>
+        <div className="mt-4 grid grid-cols-2 gap-4 items-center">
+          <div>
+            <InputGroup>
+              <MagnifyingGlassIcon />
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Find someone&hellip;"
+                name="search"
+                aria-label="Search"
+              />
+            </InputGroup>
           </div>
+        </div>
+
+        {!data ? (
+          <div className="mt-20 flex justify-center">
+            <Spinner className="size-5" />
+          </div>
+        ) : (
           <Table dense className="mt-4">
             <TableHead>
               <TableRow>
@@ -97,8 +73,8 @@ export default function Home() {
               ))}
             </TableBody>
           </Table>
-        </>
-      )}
+        )}
+      </>
     </>
   );
 }

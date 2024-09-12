@@ -2,7 +2,8 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
 import { Input, InputGroup } from '../components/input';
@@ -14,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '../components/table';
+import { Strong, Text } from '../components/text';
 import Spinner from '../spinner';
 
 export default function Home() {
@@ -28,6 +30,20 @@ export default function Home() {
     },
     placeholderData: (previousData) => previousData,
   });
+
+  let router = useRouter();
+  let pathname = usePathname();
+
+  useEffect(() => {
+    let newUrl = pathname;
+
+    if (search) {
+      let newSearchParams = new URLSearchParams({ search });
+      newUrl += `?${newSearchParams}`;
+    }
+
+    router.push(newUrl);
+  }, [pathname, router, search]);
 
   return (
     <>
@@ -55,6 +71,12 @@ export default function Home() {
                   aria-label="Search"
                 />
               </InputGroup>
+            </div>
+            <div className="text-right">
+              <Text>
+                Showing <Strong>{data.meta.current}</Strong> of{' '}
+                <Strong>{data.meta.total}</Strong> results
+              </Text>
             </div>
           </div>
           <Table dense className="mt-4">
