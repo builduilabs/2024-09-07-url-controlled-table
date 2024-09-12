@@ -1,12 +1,10 @@
 'use client';
 
 import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
+  ArrowPathIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  ReloadIcon,
-} from '@radix-ui/react-icons';
+} from '@heroicons/react/20/solid';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 
@@ -16,39 +14,38 @@ export default function URLBar() {
 
   return (
     <>
-      <div /> {/* https://github.com/vercel/next.js/issues/28778 */}
-      <div className="shadow p-2 bg-gray-50/90 backdrop-blur-xl flex gap-2 z-10 sticky top-0 items-center">
+      <div className="p-2 bg-gray-100 flex gap-2 items-center">
         <div className="flex gap-1">
           <button
             disabled={isReloading}
-            className="p-1 rounded-full enabled:hover:bg-gray-300 enabled:hover:text-gray-500 enabled:transition disabled:opacity-50 text-gray-400"
+            className="p-1 rounded-full enabled:hover:bg-gray-200 enabled:hover:text-gray-500 enabled:transition disabled:opacity-50 text-gray-400"
             onClick={() => {
               router.back();
             }}
           >
-            <ChevronLeftIcon width="18" height="18" />
+            <ChevronLeftIcon className="size-5" />
           </button>
           <button
             disabled={isReloading}
-            className="p-1 rounded-full enabled:hover:bg-gray-300 enabled:hover:text-gray-500 enabled:transition disabled:opacity-50 text-gray-400"
+            className="p-1 rounded-full enabled:hover:bg-gray-200 enabled:hover:text-gray-500 enabled:transition disabled:opacity-50 text-gray-400"
             onClick={() => {
               router.forward();
             }}
           >
-            <ChevronRightIcon width="18" height="18" />
+            <ChevronRightIcon className="size-5" />
           </button>
           <button
-            className="p-1 rounded-full enabled:hover:bg-gray-300 enabled:hover:text-gray-500 enabled:transition text-gray-400 disabled:opacity-50"
+            className="p-1 rounded-full enabled:hover:bg-gray-200 enabled:hover:text-gray-500 enabled:transition text-gray-400 disabled:opacity-50"
             disabled={isReloading}
             onClick={() => {
               setIsReloading(true);
               window.location.reload();
             }}
           >
-            <ReloadIcon width="18" height="18" />
+            <ArrowPathIcon className="size-5" />
           </button>
         </div>
-        <span className="bg-gray-400/25 rounded-full truncate grow px-3 mr-3 py-1.5 text-gray-700 font-medium text-xs">
+        <span className="bg-gray-200 rounded-full truncate grow px-3 mr-3 py-1.5 text-gray-500 font-medium text-xs">
           <Suspense>
             <FullURL />
           </Suspense>

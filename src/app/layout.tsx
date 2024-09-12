@@ -26,14 +26,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-white text-gray-900 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-white text-gray-900 antialiased flex flex-col h-full`}
       >
         <Providers>
           <URLBar />
 
-          <main className="p-4">{children}</main>
+          <main className="p-4 overflow-y-scroll">{children}</main>
         </Providers>
       </body>
     </html>
