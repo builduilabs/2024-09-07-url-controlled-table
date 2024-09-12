@@ -28,12 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-white text-gray-900 antialiased flex flex-col h-full`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-white text-gray-900 antialiased flex flex-col h-full group`}
       >
         <Providers>
-          <URLBar />
+          <div className="group-has-[[data-hide-urlbar]]:hidden">
+            <URLBar />
+          </div>
 
-          <main className="p-4 overflow-y-scroll">{children}</main>
+          <main className="py-4 px-6 overflow-y-scroll">{children}</main>
         </Providers>
       </body>
     </html>

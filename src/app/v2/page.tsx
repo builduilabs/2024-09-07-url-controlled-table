@@ -2,7 +2,7 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
 import { Input, InputGroup } from '../components/input';
@@ -14,9 +14,8 @@ import {
   TableHeader,
   TableRow,
 } from '../components/table';
-import Spinner from '../spinner';
 import { Strong, Text } from '../components/text';
-import { usePathname, useRouter } from 'next/navigation';
+import Spinner from '../spinner';
 
 export default function Home() {
   let [search, setSearch] = useState('');
@@ -30,18 +29,6 @@ export default function Home() {
     },
     placeholderData: (previousData) => previousData,
   });
-  let router = useRouter();
-  let pathname = usePathname();
-
-  useEffect(() => {
-    let url = pathname;
-    if (search) {
-      let newSearchParams = new URLSearchParams({ search });
-      url += `?${newSearchParams}`;
-    }
-
-    router.push(url);
-  }, [pathname, router, search]);
 
   return (
     <>
@@ -56,11 +43,7 @@ export default function Home() {
           <div className="mt-4 grid grid-cols-2 gap-4 items-center">
             <div>
               <InputGroup>
-                {isPlaceholderData ? (
-                  <Spinner data-slot="icon" />
-                ) : (
-                  <MagnifyingGlassIcon />
-                )}
+                {isPlaceholderData ? <Spinner /> : <MagnifyingGlassIcon />}
                 <Input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}

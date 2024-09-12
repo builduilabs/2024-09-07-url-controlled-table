@@ -32,6 +32,7 @@ export default function Home() {
 
   return (
     <>
+      <span data-hide-urlbar />
       <Heading>Your team</Heading>
 
       {!data ? (
