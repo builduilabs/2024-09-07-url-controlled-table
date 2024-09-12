@@ -2,7 +2,6 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
 import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
 import { Input, InputGroup } from '../components/input';
