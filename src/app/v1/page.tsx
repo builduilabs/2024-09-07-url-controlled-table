@@ -65,7 +65,7 @@ export default function Home() {
               </Text>
             </div>
           </div>
-          <Table dense striped className="mt-4">
+          <Table dense className="mt-4">
             <TableHead>
               <TableRow>
                 <TableHeader>Name</TableHeader>
