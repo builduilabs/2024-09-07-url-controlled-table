@@ -1,27 +1,13 @@
 ```tsx
-export default function Home() {
-  let searchParams = useSearchParams();
-  let [search, setSearch] = useState(searchParams.get('search') ?? '');
-  let { data, isPlaceholderData } = useQuery({
-    queryKey: ['people', search],
-    queryFn: async () => {
-      let res = await fetch(`/api/people?search=${search}`);
-      let data = await res.json();
+function Counter() {
+  let [count, setCount] = useState(0);
 
-      return data as Response;
-    },
-    placeholderData: (previousData) => previousData,
-  });
-
-  let router = useRouter();
-  let pathname = usePathname();
-
-  useEffect(() => {
-    if (search) {
-      router.push(`${pathname}?search=${search}`);
-    }
-  }, [pathname, router, search]);
-
-  // ...
+  return (
+    <>
+      <button onClick={() => setCount(count - 1)}>-</button>
+      <div>{count}</div>
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </>
+  );
 }
 ```

@@ -18,8 +18,6 @@ import { Strong, Text } from '../components/text';
 import Spinner from '../spinner';
 
 export default function Home() {
-  let router = useRouter();
-  let pathname = usePathname();
   let searchParams = useSearchParams();
   let search = searchParams.get('search') ?? '';
   let { data, isPlaceholderData } = useQuery({
@@ -32,6 +30,9 @@ export default function Home() {
     },
     placeholderData: (previousData) => previousData,
   });
+
+  let router = useRouter();
+  let pathname = usePathname();
 
   return (
     <>
@@ -55,13 +56,12 @@ export default function Home() {
                   value={search}
                   onChange={(e) => {
                     let search = e.target.value;
-                    let url = pathname;
-                    if (search) {
-                      let newSearchParams = new URLSearchParams({ search });
-                      url += `?${newSearchParams}`;
-                    }
 
-                    router.push(url);
+                    if (search) {
+                      router.push(`${pathname}?search=${search}`);
+                    } else {
+                      router.push(pathname);
+                    }
                   }}
                   placeholder="Find someone&hellip;"
                   name="search"
