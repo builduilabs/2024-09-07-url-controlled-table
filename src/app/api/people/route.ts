@@ -45,3 +45,5 @@ export type Response = {
     total: number;
   };
 };
+
+export const runtime = 'edge';
