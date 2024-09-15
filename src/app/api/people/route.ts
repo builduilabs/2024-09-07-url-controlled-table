@@ -3,10 +3,12 @@ import { faker } from '@faker-js/faker';
 faker.seed(123);
 
 export async function GET(request: NextRequest) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   const searchParams = request.nextUrl.searchParams;
   const search = searchParams.get('search');
+
+  if (search) {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }
 
   let filteredPeople = search
     ? allPeople.filter((p) =>
