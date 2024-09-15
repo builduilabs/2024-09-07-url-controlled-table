@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import './global.css';
 import Providers from './providers';
 import URLBar from './url-bar';
+import { Suspense } from 'react';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -36,7 +37,7 @@ export default function RootLayout({
           </div>
 
           <main className="h-full flex flex-col py-4 px-6 overflow-y-scroll">
-            {children}
+            <Suspense>{children}</Suspense>
           </main>
         </Providers>
       </body>
