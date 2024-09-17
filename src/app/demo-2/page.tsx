@@ -18,7 +18,7 @@ import Spinner from '../spinner';
 
 export default function Home() {
   let [search, setSearch] = useState('');
-  let { data } = useQuery({
+  let { data, isPlaceholderData } = useQuery({
     queryKey: ['people', search],
     queryFn: async () => {
       let res = await fetch(`/api/people?search=${search}`);
@@ -26,33 +26,37 @@ export default function Home() {
 
       return data as Response;
     },
+    placeholderData: (previousData) => previousData,
   });
 
   return (
     <>
       <Heading>Your team</Heading>
 
-      <>
-        <div className="mt-4 grid grid-cols-2 gap-4 items-center">
-          <div>
-            <InputGroup>
-              <MagnifyingGlassIcon />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Find someone&hellip;"
-                name="search"
-                aria-label="Search"
-              />
-            </InputGroup>
-          </div>
+      {!data ? (
+        <div className="mt-20 flex justify-center">
+          <Spinner className="size-5" />
         </div>
-
-        {!data ? (
-          <div className="mt-20 flex justify-center">
-            <Spinner className="size-5" />
+      ) : (
+        <>
+          <div className="mt-4 grid grid-cols-2 gap-4 items-center">
+            <div>
+              <InputGroup>
+                {isPlaceholderData ? (
+                  <Spinner data-slot="icon" />
+                ) : (
+                  <MagnifyingGlassIcon />
+                )}
+                <Input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Find someone&hellip;"
+                  name="search"
+                  aria-label="Search"
+                />
+              </InputGroup>
+            </div>
           </div>
-        ) : (
           <Table dense className="mt-4">
             <TableHead>
               <TableRow>
@@ -73,8 +77,8 @@ export default function Home() {
               ))}
             </TableBody>
           </Table>
-        )}
-      </>
+        </>
+      )}
     </>
   );
 }

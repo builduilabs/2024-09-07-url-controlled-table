@@ -59,6 +59,8 @@ export default function Home() {
 
                     if (search) {
                       router.push(`${pathname}?search=${search}`);
+                    } else {
+                      router.push(pathname);
                     }
                   }}
                   placeholder="Find someone&hellip;"

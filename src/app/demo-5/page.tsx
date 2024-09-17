@@ -3,7 +3,6 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 import { useQuery } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { Response } from '../api/people/route';
 import { Heading } from '../components/heading';
 import { Input, InputGroup } from '../components/input';
@@ -20,7 +19,7 @@ import Spinner from '../spinner';
 
 export default function Home() {
   let searchParams = useSearchParams();
-  let [search, setSearch] = useState(searchParams.get('search') ?? '');
+  let search = searchParams.get('search') ?? '';
   let { data, isPlaceholderData } = useQuery({
     queryKey: ['people', search],
     queryFn: async () => {
@@ -34,12 +33,6 @@ export default function Home() {
 
   let router = useRouter();
   let pathname = usePathname();
-
-  useEffect(() => {
-    if (search) {
-      router.push(`${pathname}?search=${search}`);
-    }
-  }, [pathname, router, search]);
 
   return (
     <>
@@ -61,7 +54,13 @@ export default function Home() {
                 )}
                 <Input
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => {
+                    let search = e.target.value;
+
+                    if (search) {
+                      router.push(`${pathname}?search=${search}`);
+                    }
+                  }}
                   placeholder="Find someone&hellip;"
                   name="search"
                   aria-label="Search"
