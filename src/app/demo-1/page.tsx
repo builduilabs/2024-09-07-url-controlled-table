@@ -41,7 +41,7 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <div className="mt-4 grid grid-cols-2 gap-4 items-center">
+          <div className="mt-4 grid sm:grid-cols-2 gap-4 items-center">
             <div>
               <InputGroup>
                 {isPlaceholderData ? (
@@ -58,7 +58,7 @@ export default function Home() {
                 />
               </InputGroup>
             </div>
-            <div className="text-right">
+            <div className="sm:text-right">
               <Text>
                 Showing <Strong>{data.meta.current}</Strong> of{' '}
                 <Strong>{data.meta.total}</Strong> results
@@ -70,7 +70,7 @@ export default function Home() {
               <TableRow>
                 <TableHeader>Name</TableHeader>
                 <TableHeader>Email</TableHeader>
-                <TableHeader>Role</TableHeader>
+                <TableHeader className="hidden">Role</TableHeader>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -80,7 +80,9 @@ export default function Home() {
                   <TableCell className="text-gray-500">
                     {person.email}
                   </TableCell>
-                  <TableCell className="text-gray-500">{person.role}</TableCell>
+                  <TableCell className="text-gray-500 hidden">
+                    {person.role}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

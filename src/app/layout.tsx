@@ -36,7 +36,7 @@ export default function RootLayout({
             <URLBar />
           </div>
 
-          <main className="h-full flex flex-col py-4 px-6 overflow-y-scroll">
+          <main className="h-full flex flex-col p-4 sm:py-4 sm:px-6 overflow-y-scroll">
             <Suspense>{children}</Suspense>
           </main>
         </Providers>
