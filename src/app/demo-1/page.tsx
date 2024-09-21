@@ -59,7 +59,7 @@ export default function Home() {
               </InputGroup>
             </div>
             <div className="sm:text-right">
-              <Text>
+              <Text className="text-sm/6">
                 Showing <Strong>{data.meta.current}</Strong> of{' '}
                 <Strong>{data.meta.total}</Strong> results
               </Text>
@@ -70,7 +70,7 @@ export default function Home() {
               <TableRow>
                 <TableHeader>Name</TableHeader>
                 <TableHeader>Email</TableHeader>
-                <TableHeader className="hidden">Role</TableHeader>
+                <TableHeader>Role</TableHeader>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -80,9 +80,7 @@ export default function Home() {
                   <TableCell className="text-gray-500">
                     {person.email}
                   </TableCell>
-                  <TableCell className="text-gray-500 hidden">
-                    {person.role}
-                  </TableCell>
+                  <TableCell className="text-gray-500">{person.role}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

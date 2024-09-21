@@ -44,7 +44,7 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <div className="mt-4 grid grid-cols-2 gap-4 items-center">
+          <div className="mt-4 grid sm:grid-cols-2 gap-4 items-center">
             <div>
               <InputGroup>
                 {isPlaceholderData ? (
@@ -67,8 +67,9 @@ export default function Home() {
                 />
               </InputGroup>
             </div>
-            <div className="text-right">
-              <Text>
+
+            <div className="sm:text-right">
+              <Text className="text-sm/6">
                 Showing <Strong>{data.meta.current}</Strong> of{' '}
                 <Strong>{data.meta.total}</Strong> results
               </Text>

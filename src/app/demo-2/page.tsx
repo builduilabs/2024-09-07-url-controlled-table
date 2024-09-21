@@ -39,7 +39,7 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <div className="mt-4 grid grid-cols-2 gap-4 items-center">
+          <div className="mt-4 grid sm:grid-cols-2 gap-4 items-center">
             <div>
               <InputGroup>
                 {isPlaceholderData ? (

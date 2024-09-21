@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
   let people = filteredPeople
     .sort((a, b) => a.name.localeCompare(b.name))
-    .slice(0, 10);
+    .slice(0, 5);
 
   return Response.json({
     people,
